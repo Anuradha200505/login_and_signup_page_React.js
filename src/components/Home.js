@@ -1,27 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../Api"; // ✅ IMPORTANT (capital A)
+import api from "../Api";
 
 function Home() {
   const navigate = useNavigate();
-  const [brands, setBrands] = useState([]);
+  const [sites, setSites] = useState([]);
+  const [activeSite, setActiveSite] = useState(null); // 👈 track opened card
 
   const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
-    fetchBrands();
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    fetchSites();
+    // eslint-disable-next-line
   }, []);
 
-  const fetchBrands = async () => {
+  const fetchSites = async () => {
     try {
-      const response = await api.get("/Brands");
+      const response = await api.get("/SiteDetail");
 
-      if (Array.isArray(response.data)) {
-        setBrands(response.data);
+      if (response.data && response.data.result) {
+        setSites(response.data.result);
       } else {
-        setBrands([]);
+        setSites([]);
       }
-
     } catch (error) {
       console.log(error);
     }
@@ -32,24 +37,82 @@ function Home() {
     navigate("/login");
   };
 
+  const toggleCard = (key) => {
+    setActiveSite(activeSite === key ? null : key);
+  };
+
   return (
-    <div className="container">
-      <h2>Welcome 🎉</h2>
+    <div style={{ padding: "20px" }}>
+      <h2 style={{ textAlign: "center", color: "white" }}>
+        Site Details
+      </h2>
 
-      <p>Name: {user?.displayName}</p>
-      <p>Email: {user?.email}</p>
+      {/* 🔥 GRID */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gap: "20px",
+          marginTop: "20px",
+        }}
+      >
+        {sites.map((site) => (
+          <div
+            key={site.siteKey}
+            onClick={() => toggleCard(site.siteKey)}
+            style={{
+              background: "white",
+              borderRadius: "10px",
+              padding: "15px",
+              boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
+              cursor: "pointer",
+            }}
+          >
+            {/* 🔹 HEADER (Title + Image) */}
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              {site.siteImageUrl && (
+                <img
+                  src={site.siteImageUrl}
+                  alt="site"
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                  }}
+                />
+              )}
+              <h3 style={{ margin: 0 }}>{site.outletName}</h3>
+            </div>
 
-      <button onClick={handleLogout}>Logout</button>
+            {/* 🔽 DETAILS (only when clicked) */}
+            {activeSite === site.siteKey && (
+              <div style={{ marginTop: "10px" }}>
+                <p><b>Code:</b> {site.siteCode}</p>
+                <p>
+                  <b>Address:</b> {site.siteAddress1}, {site.siteAddress2}, {site.siteAddress3}
+                </p>
+                <p><b>District:</b> {site.district}</p>
+                <p><b>Email:</b> {site.email}</p>
+                <p><b>Corporation:</b> {site.corporation}</p>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
 
-      <h3>Brands List</h3>
-
-      {brands.length > 0 ? (
-        brands.map((item, index) => (
-          <p key={index}>{item.name}</p>
-        ))
-      ) : (
-        <p>No data available</p>
-      )}
+      {/* 🔴 LOGOUT */}
+      <div style={{ textAlign: "center", marginTop: "30px" }}>
+        <button
+          onClick={handleLogout}
+          style={{
+            width: "200px",
+            background: "red",
+          }}
+        >
+          Logout
+        </button>
+      </div>
     </div>
   );
 }
