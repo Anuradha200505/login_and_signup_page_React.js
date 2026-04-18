@@ -5,7 +5,7 @@ import api from "../Api";
 function Home() {
   const navigate = useNavigate();
   const [sites, setSites] = useState([]);
-  const [activeSite, setActiveSite] = useState(null); // 👈 track opened card
+  const [activeSite, setActiveSite] = useState(null);
 
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -47,6 +47,13 @@ function Home() {
         Site Details
       </h2>
 
+      {/* ✅ ADD BUTTON */}
+      <div style={{ textAlign: "center", marginBottom: "20px" }}>
+        <button onClick={() => navigate("/AddSite")}>
+          Add Site Details
+        </button>
+      </div>
+
       {/* 🔥 GRID */}
       <div
         style={{
@@ -68,7 +75,6 @@ function Home() {
               cursor: "pointer",
             }}
           >
-            {/* 🔹 HEADER (Title + Image) */}
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               {site.siteImageUrl && (
                 <img
@@ -85,7 +91,6 @@ function Home() {
               <h3 style={{ margin: 0 }}>{site.outletName}</h3>
             </div>
 
-            {/* 🔽 DETAILS (only when clicked) */}
             {activeSite === site.siteKey && (
               <div style={{ marginTop: "10px" }}>
                 <p><b>Code:</b> {site.siteCode}</p>
@@ -101,7 +106,7 @@ function Home() {
         ))}
       </div>
 
-      {/* 🔴 LOGOUT */}
+      {/* 🔴 (optional remove pannalam) */}
       <div style={{ textAlign: "center", marginTop: "30px" }}>
         <button
           onClick={handleLogout}
