@@ -47,20 +47,19 @@ function Home() {
         Site Details
       </h2>
 
-      {/* ✅ ADD BUTTON */}
+      {/* ADD BUTTON */}
       <div style={{ textAlign: "center", marginBottom: "20px" }}>
         <button onClick={() => navigate("/AddSite")}>
           Add Site Details
         </button>
       </div>
 
-      {/* 🔥 GRID */}
+      {/* GRID */}
       <div
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
           gap: "20px",
-          marginTop: "20px",
         }}
       >
         {sites.map((site) => (
@@ -75,22 +74,28 @@ function Home() {
               cursor: "pointer",
             }}
           >
+            {/* ✅ IMAGE + NAME */}
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              {site.siteImageUrl && (
-                <img
-                  src={site.siteImageUrl}
-                  alt="site"
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                  }}
-                />
-              )}
+              <img
+                src={
+                  site.siteImageUrl
+                    ? site.siteImageUrl
+                    : "https://via.placeholder.com/50"
+                }
+                alt="site"
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  border: "2px solid #ddd"
+                }}
+              />
+
               <h3 style={{ margin: 0 }}>{site.outletName}</h3>
             </div>
 
+            {/* DETAILS */}
             {activeSite === site.siteKey && (
               <div style={{ marginTop: "10px" }}>
                 <p><b>Code:</b> {site.siteCode}</p>
@@ -100,19 +105,35 @@ function Home() {
                 <p><b>District:</b> {site.district}</p>
                 <p><b>Email:</b> {site.email}</p>
                 <p><b>Corporation:</b> {site.corporation}</p>
+
+                {/* EDIT BUTTON */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/edit-site/${site.siteKey}`, { state: site });
+                  }}
+                  style={{
+                    marginTop: "10px",
+                    background: "orange",
+                    color: "white",
+                  }}
+                >
+                  Edit
+                </button>
               </div>
             )}
           </div>
         ))}
       </div>
 
-      {/* 🔴 (optional remove pannalam) */}
+      {/* LOGOUT */}
       <div style={{ textAlign: "center", marginTop: "30px" }}>
         <button
           onClick={handleLogout}
           style={{
             width: "200px",
             background: "red",
+            color: "white"
           }}
         >
           Logout
