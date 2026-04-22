@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../Api"; // capital A
+import { loginUser } from "../services/api";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -15,18 +15,13 @@ function Login() {
       return;
     }
 
-    try {
-      const response = await api.post("/Account/login", {
-        email,
-        password
-      });
+    const result = await loginUser(email, password);
 
-      localStorage.setItem("user", JSON.stringify(response.data));
-      setTopError("");
+    if (result.success) {
+      localStorage.setItem("user", JSON.stringify(result.data)); // ✅ store token
       navigate("/home");
-
-    } catch (error) {
-      setTopError("Incorrect email or password");
+    } else {
+      setTopError("Login failed");
     }
   };
 
@@ -34,24 +29,16 @@ function Login() {
     <div className="container">
       <h2>Login</h2>
 
-      {/* 🔴 Error message in red */}
-      {topError && (
-        <p style={{ color: "red", fontWeight: "bold" }}>
-          {topError}
-        </p>
-      )}
+      {topError && <p className="top-error">{topError}</p>}
 
       <input
-        type="email"
         placeholder="Email"
-        value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
 
       <input
         type="password"
         placeholder="Password"
-        value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
 
