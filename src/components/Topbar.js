@@ -1,26 +1,53 @@
-// components/Topbar.js
+import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 function Topbar() {
+  const [showMenu, setShowMenu] = useState(false);
+  const navigate = useNavigate();
+  const menuRef = useRef(null);
+
+  // ✅ Logout function
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    navigate("/");
+  };
+
+  // ✅ Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setShowMenu(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="topbar">
-
-      <div className="left">
-        ₹ Petrol – ₹101.89 &nbsp;&nbsp; Diesel – ₹93.45
-      </div>
-
-      <div className="right">
-        <div className="date-box">
-          21/04/2026 09:00 AM – 22/04/2026 08:59 AM
-        </div>
-
-        <div className="site-select">
-          Site: NBE ▼
-        </div>
-
-        <div className="profile">
+      <div className="topbar-right" ref={menuRef}>
+        
+        {/* 👤 PROFILE ICON */}
+        <div
+          className="profile"
+          onClick={() => setShowMenu(!showMenu)}
+        >
           👤
         </div>
-      </div>
 
+        {/* 🔽 DROPDOWN */}
+        {showMenu && (
+          <div className="dropdown">
+            <button className="logout-btn" onClick={handleLogout}>
+              Logout
+            </button>
+          </div>
+        )}
+
+      </div>
     </div>
   );
 }
