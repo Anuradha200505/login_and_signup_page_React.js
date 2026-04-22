@@ -1,60 +1,449 @@
+/* 🌍 GLOBAL */
 body {
   margin: 0;
-  font-family: Arial;
-  background: linear-gradient(to right, #2e3138, #0e162e);
+  font-family: "Segoe UI", sans-serif;
+  background: #f5f7fb;
 }
 
-.container {
-  width: 350px;
-  margin: 100px auto;
-  padding: 30px;
-  background: white;
-  border-radius: 10px;
-  text-align: center;
+/* 🔷 LAYOUT */
+.layout {
+  display: flex;
 }
 
-h2 {
+/* 🔷 SIDEBAR */
+.sidebar {
+  width: 220px;
+  background: #2f4a7c;
+  color: white;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
   margin-bottom: 20px;
 }
 
-input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.menu-item {
+  margin-top: 20px;
+  font-weight: bold;
 }
 
-button {
-  width: 100%;
+.submenu {
+  margin-top: 10px;
   padding: 10px;
-  background: #2e59d9;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  margin-top: 15px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.submenu:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.submenu.active {
+  background: white;
+  color: #2f4a7c;
+}
+
+/* 🔷 CONTENT AREA */
+.content-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 🔷 TOPBAR */
+.topbar {
+  height: 60px;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 25px;
+  border-bottom: 1px solid #ddd;
+}
+
+.topbar .left {
+  font-weight: 500;
+  color: #333;
+}
+
+.topbar .right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.date-box {
+  border: 1px solid #3c5aa6;
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: #3c5aa6;
+  font-size: 13px;
+}
+
+.site-select {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  border-radius: 8px;
   cursor: pointer;
 }
 
-button:hover {
-  background: #224abe;
+.profile {
+  font-size: 20px;
+  cursor: pointer;
 }
 
-.error {
-  color: red;
-  font-size: 12px;
+/* 🔷 MAIN CONTENT */
+.main-content {
+  padding: 20px;
+}
+
+/* 🔷 HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.primary-btn {
+  background: #3c5aa6;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.primary-btn:hover {
+  background: #2f4a7c;
+}
+
+/* 🔷 TABLE */
+.table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.table th {
+  background: #3c5aa6;
+  color: white;
+  padding: 12px;
   text-align: left;
-  margin: 3px 0 0 5px;
 }
 
+.table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.table tr:hover {
+  background: #f9fbff;
+}
+
+/* 🔷 STATUS */
+.status.active {
+  color: green;
+  font-weight: 500;
+}
+
+/* 🔷 BUTTONS */
+.delete-btn {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: #c0392b;
+}
+
+/* 🔷 FORM (CREATE / UPDATE) */
+.form-container {
+  padding: 20px;
+  display: flex;
+  gap: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  flex: 2;
+}
+
+.form-grid input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* 🔷 RIGHT PANEL */
+.fuel-box {
+  flex: 1;
+  background: #eef3fb;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.fuel-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+/* 🔷 BUTTON ROW */
+.btn-row {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-row button {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-row .back {
+  background: #ccc;
+}
+
+.btn-row .create {
+  background: #3c5aa6;
+  color: white;
+}
+/* 🔐 LOGIN PAGE */
+.container {
+  width: 350px;
+  margin: 120px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.container h2 {
+  margin-bottom: 20px;
+  color: #2f4a7c;
+}
+
+/* Inputs */
+.container input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.container input:focus {
+  border-color: #3c5aa6;
+}
+
+/* Button */
+.container button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  background: #3c5aa6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.container button:hover {
+  background: #2f4a7c;
+}
+
+/* Error */
 .top-error {
   color: red;
   margin-bottom: 10px;
+  font-size: 14px;
+}
+/* 🔘 TOGGLE SWITCH */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
 }
 
-.link-text {
-  margin-top: 10px;
-  color: #4e73df;
-  cursor: pointer;
-  font-size: 13px;
+.switch input {
+  display: none;
 }
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  background-color: #ccc;
+  border-radius: 20px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: 0.3s;
+}
+
+.slider:before {
+  content: "";
+  position: absolute;
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+input:checked + .slider {
+  background-color: #2ecc71;
+}
+
+input:checked + .slider:before {
+  transform: translateX(18px);
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.page-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-controls button {
+  padding: 5px 10px;
+  border: none;
+  background: #3c5aa6;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.page-controls button:disabled {
+  background: #ccc;
+}
+/* 🔲 Modal background (light blue) */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(60, 90, 166, 0.15); /* 🔵 light blue */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* 📦 Modal box */
+.modal-box {
+  background: #eef3fb; /* 🔵 light blue box */
+  padding: 25px;
+  border-radius: 10px;
+  width: 300px;
+}
+
+/* 🔷 Title */
+.modal-title {
+  color: #3c5aa6;
+  margin-bottom: 10px;
+}
+
+/* 🔷 Buttons (same as home) */
+.modal-box button {
+  background: #3c5aa6;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-box button:hover {
+  background: #2f4a7c;
+}
+
+/* Inputs */
+.modal-box input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: 1px solid #95c2cb;
+}
+.form-grid label {
+  display: flex;
+  align-items: center;
+  gap: 8px;   /* 🔥 space between icon + text */
+  font-size: 14px;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.form-grid label svg {
+  color: #3c5aa6;  /* 🔵 same blue */
+}
+/* 🔵 FULL PAGE BACKGROUND */
+.main-content {
+  background: #eef3fb;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* 📦 FORM CENTER ALIGN */
+.form-container {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* 🔽 BUTTON BOTTOM CENTER */
+.btn-row {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center; /* 🔥 CENTER */
+  gap: 15px;
+}
+
+/* 🔵 BLUE BUTTON */
+.blue-btn {
+  background: #3c5aa6;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.blue-btn:hover {
+  background: #2f4a7c;
+}
+ 

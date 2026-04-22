@@ -1,20 +1,72 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// src/App.js
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+// Pages
 import Login from "./components/Login";
-import Signup from "./components/Signup";
-import Home from "./components/Home";
+
+// Layout Components
+import Sidebar from "./components/Sidebar";
+import Topbar from "./components/Topbar";
+
+// Main Pages
+import OutletList from "./components/OutletList";
+import CreateOutlet from "./components/CreateOutlet";
+import UpdateOutlet from "./components/UpdateOutlet";
+
+function Layout({ children }) {
+  return (
+    <div style={{ display: "flex" }}>
+      <Sidebar />
+
+      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+        <Topbar />
+        {children}
+      </div>
+    </div>
+  );
+}
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/home" element={<Home />} />
+
+        {/* 🔐 LOGIN */}
+        <Route path="/" element={<Login />} />
+
+        {/* 🏠 HOME → Outlet List */}
+        <Route
+          path="/home"
+          element={
+            <Layout>
+              <OutletList />
+            </Layout>
+          }
+        />
+
+        {/* ➕ CREATE OUTLET */}
+        <Route
+          path="/create"
+          element={
+            <Layout>
+              <CreateOutlet />
+            </Layout>
+          }
+        />
+
+        {/* ✏️ UPDATE OUTLET */}
+        <Route
+          path="/update/:siteKey"
+          element={
+            <Layout>
+              <UpdateOutlet />
+            </Layout>
+          }
+        />
+
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 
 export default App;
-

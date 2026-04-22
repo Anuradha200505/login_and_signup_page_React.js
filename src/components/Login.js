@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { loginUser } from "../services/api";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -8,23 +9,19 @@ function Login() {
 
   const navigate = useNavigate();
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!email || !password) {
       setTopError("Please fill all fields");
       return;
     }
 
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const result = await loginUser(email, password);
 
-    if (
-      storedUser &&
-      storedUser.email === email &&
-      storedUser.password === password
-    ) {
-      setTopError("");
+    if (result.success) {
+      localStorage.setItem("user", JSON.stringify(result.data)); // ✅ store token
       navigate("/home");
     } else {
-      setTopError("Incorrect email or password");
+      setTopError("Login failed");
     }
   };
 
